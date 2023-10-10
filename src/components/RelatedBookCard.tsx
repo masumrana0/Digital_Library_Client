@@ -1,5 +1,3 @@
-import React from "react";
-
 const RelatedBookCard = () => {
   return (
     <div className="  rounded  w-72 h-56 p-2 flex justify-center items-center  gap-3 ">

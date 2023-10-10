@@ -1,11 +1,29 @@
-import React from "react";
+import React, { FormEvent } from "react";
+import { useLoginUserMutation } from "../redux/api/apiSlice";
 
 const Login: React.FC = () => {
+  const [loginfo, { isError, isLoading, isSuccess, error, data }] =
+    useLoginUserMutation();
+  console.log(error);
+  console.log(data);
+  const handleLogin = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.target as HTMLFormElement;
+    const email = form.email.value;
+    const passoword = form.password.value;
+
+    const loginData = {
+      email: email,
+      password: passoword,
+    };
+    loginfo(loginData);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-blue-100">
       <div className="bg-white p-20 rounded-lg shadow-md w-full sm:w-96 md:w-2/3 lg:w-1/3">
         <h2 className="text-3xl font-semibold text-center mb-6">Login</h2>
-        <form>
+        <form onSubmit={handleLogin}>
           <div className="mb-6">
             <label htmlFor="email" className="block text-gray-600">
               Email
@@ -13,6 +31,7 @@ const Login: React.FC = () => {
             <input
               type="email"
               id="email"
+              name="email"
               className="w-full py-3 px-4 border rounded-md"
               placeholder="Your Email"
               required
@@ -25,6 +44,7 @@ const Login: React.FC = () => {
             <input
               type="password"
               id="password"
+              name="password"
               className="w-full py-3 px-4 border rounded-md"
               placeholder="Your Password"
               required

@@ -1,11 +1,13 @@
+import BookCard from "../components/BookCard";
+import Spinner from "../components/ui/Spinner";
 import { useGetBooksQuery } from "../redux/api/apiSlice";
-import BookCard from "../components/ui/BookCard";
+
 import { IBook } from "../types/globalTypes";
-import Spinner from "../components/ui/spinner";
 
 const AllBook = () => {
   const { data, error, isLoading } = useGetBooksQuery(undefined);
-
+  console.log(error);
+  console.log(data?.data);
   return (
     <div className="box-border">
       {/* Searching bar */}
@@ -65,6 +67,16 @@ const AllBook = () => {
 
         {/* Book card section */}
         <div className="col-span-9 rounded-lg container border-2 border-green-500 min-h-screen relative">
+          <div className="grid grid-cols-4">
+            {isLoading ? (
+              <Spinner />
+            ) : (
+              data?.data.map((book: IBook) => (
+                <BookCard key={book._id} book={book} />
+              ))
+            )}
+          </div>
+
           {/* Pagination bar */}
           <nav className="flex justify-center items-center gap-4 absolute bottom-0 start-96 end-96">
             <button
