@@ -1,5 +1,3 @@
-import React from "react";
-
 const MyBookCollection = () => {
   return (
     <div className="bg-gray-200 min-h-screen">

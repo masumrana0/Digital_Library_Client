@@ -1,7 +1,6 @@
 import { IBookProps } from "../types/globalTypes";
 
 const TableBookDetails = ({ book }: IBookProps) => {
-  console.log("table", book);
   return (
     <div>
       <table className="table-fixed w-full border border-gray-300">

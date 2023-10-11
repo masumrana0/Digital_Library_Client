@@ -1,18 +1,20 @@
 import React, { FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IUser } from "../types/globalTypes";
-import { useRegisterUserMutation } from "../redux/api/apiSlice";
+import { useRegisterUserMutation } from "../redux/api/userSlice";
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
+  // register user
   const [postUser, { isError, isLoading, isSuccess, error }] =
     useRegisterUserMutation();
   console.log(isError, isLoading, isSuccess);
 
+  // showing alert if come error
   if (!isSuccess && error) {
     alert(error?.data.message);
   }
-
+  // if login successfully done then nevigate login  page
   if (isSuccess) {
     navigate("/login");
   }

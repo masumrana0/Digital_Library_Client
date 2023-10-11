@@ -1,13 +1,11 @@
 import BookCard from "../components/BookCard";
 import Spinner from "../components/ui/Spinner";
-import { useGetBooksQuery } from "../redux/api/apiSlice";
-
+import { useGetBooksQuery } from "../redux/api/bookSlice";
 import { IBook } from "../types/globalTypes";
 
 const AllBook = () => {
-  const { data, error, isLoading } = useGetBooksQuery(undefined);
-  console.log(error);
-  console.log(data?.data);
+  const { data, isLoading } = useGetBooksQuery(undefined);
+
   return (
     <div className="box-border">
       {/* Searching bar */}

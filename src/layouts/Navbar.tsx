@@ -1,9 +1,29 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBook } from "react-icons/fa";
+import HandleLogout from "../utility/HandleLogout";
+import { useAppSelector } from "../redux/hook";
+import { useDispatch } from "react-redux";
+import { logout } from "../redux/features/authSlice";
 
 const Navbar: React.FC = () => {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const userData = useAppSelector((state) => state.auth);
+
+  const localStorageCredential = localStorage.getItem("userCredential");
+
+  let parsedCredential = null;
+  if (localStorageCredential !== null) {
+    parsedCredential = JSON.parse(localStorageCredential);
+  }
+
+  let UserCredential = null;
+  if (userData.isAuthenticated) {
+    UserCredential = userData.userCredential;
+  } else if (localStorageCredential) {
+    UserCredential = parsedCredential;
+  }
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -39,34 +59,50 @@ const Navbar: React.FC = () => {
         </div>
 
         {/* Right side: Profile Picture and Dropdown */}
-        <div className="relative">
-          <button
-            className="text-white hover:text-gray-300 focus:outline-none"
-            onClick={toggleDropdown}
-          >
-            <img
-              src="your-profile-picture-url.jpg"
-              alt="Profile"
-              className="w-10 h-10 rounded-full"
-            />
-          </button>
+        {UserCredential ? (
+          <div className="relative">
+            <button
+              className="text-white hover:text-gray-300 focus:outline-none"
+              onClick={toggleDropdown}
+            >
+              <img
+                src={UserCredential?.photoUrl}
+                alt="Profile"
+                className="w-10 h-10 rounded-full"
+              />
+            </button>
 
-          {isOpen && (
-            <div className="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-lg overflow-hidden">
-              <div className="px-4 py-2">
-                {/* User Email */}
-                <p className="text-gray-600">user@email.com</p>
+            {isOpen && (
+              <div className="absolute right-0 mt-2 w-60 bg-white shadow-lg rounded-lg overflow-hidden">
+                <div className="px-4 py-2">
+                  {UserCredential?.email && (
+                    <p className="text-gray-600">{UserCredential?.email}</p>
+                  )}
+                </div>
+                <div className="border-t border-gray-300"></div>
+                <div className="px-4 py-2">
+                  {/* Sign Out */}
+                  <button
+                    onClick={(HandleLogout(), () => dispatch(logout()))}
+                    className="text-red-600 hover:text-red-800 focus:outline-none"
+                  >
+                    Sign Out
+                  </button>
+                </div>
               </div>
-              <div className="border-t border-gray-300"></div>
-              <div className="px-4 py-2">
-                {/* Sign Out */}
-                <button className="text-red-600 hover:text-red-800 focus:outline-none">
-                  Sign Out
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        ) : (
+          <Link to="/login">
+            {" "}
+            <button
+              type="button"
+              className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-10 py-2.5 text-center mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-white "
+            >
+              login
+            </button>
+          </Link>
+        )}
 
         {/* Mobile menu button for small screens */}
         <div className="md:hidden">

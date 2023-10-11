@@ -1,5 +1,3 @@
-import React from "react";
-
 const AddBook = () => {
   return (
     <div className="flex justify-center mt-5 bg-gray-200">

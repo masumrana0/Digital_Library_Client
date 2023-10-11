@@ -1,4 +1,4 @@
-import { useGetOneUserByEmailQuery } from "../../redux/api/apiSlice";
+import { useGetOneUserByEmailQuery } from "../../redux/api/userSlice";
 import { IReviewProps } from "../../types/globalTypes";
 import { FaUserAlt } from "react-icons/fa";
 

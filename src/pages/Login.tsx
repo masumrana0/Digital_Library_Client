@@ -1,11 +1,33 @@
 import React, { FormEvent } from "react";
-import { useLoginUserMutation } from "../redux/api/apiSlice";
+
+import { useDispatch } from "react-redux";
+import { login } from "../redux/features/authSlice";
+import {
+  useGetUserCredentialQuery,
+  useLoginUserMutation,
+} from "../redux/api/userSlice";
 
 const Login: React.FC = () => {
-  const [loginfo, { isError, isLoading, isSuccess, error, data }] =
-    useLoginUserMutation();
-  console.log(error);
-  console.log(data);
+  const dispatch = useDispatch();
+  const [loginfo, { isSuccess, data }] = useLoginUserMutation();
+
+  // set accessToken in localStorage
+  if (isSuccess && data) {
+    localStorage.setItem("accessToken", data.data.accessToken);
+  }
+  const accessToken = localStorage.getItem("accessToken");
+
+  // get User Credential
+  const { data: credential, isLoading } =
+    useGetUserCredentialQuery(accessToken);
+
+  // set user Credetnial localStorage and redux store both
+  if (credential && !isLoading) {
+    localStorage.setItem("userCredential", JSON.stringify(credential.data));
+    dispatch(login(credential.data));
+  }
+
+  // hadnle login function
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;

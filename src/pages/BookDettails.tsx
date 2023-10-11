@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useGetOneBookQuery } from "../redux/api/apiSlice";
+import { useGetOneBookQuery } from "../redux/api/bookSlice";
 import { IBook } from "../types/globalTypes";
 import Spinner from "../components/ui/Spinner";
 import { useState } from "react";

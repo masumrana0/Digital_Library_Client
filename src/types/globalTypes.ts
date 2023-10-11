@@ -31,7 +31,7 @@ export interface IName {
 export interface IUser {
   name: IName;
   email: string;
-  phoneNumber: number;
+  phoneNumber?: number;
   photoUrl?: string;
-  password: string;
+  password?: string;
 }
