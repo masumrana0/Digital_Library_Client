@@ -5,24 +5,20 @@ import HandleLogout from "../utility/HandleLogout";
 import { useAppSelector } from "../redux/hook";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/features/authSlice";
+import UserCredentialFromLocalStorage from "../utility/UserCredential";
 
 const Navbar: React.FC = () => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const userData = useAppSelector((state) => state.auth);
 
-  const localStorageCredential = localStorage.getItem("userCredential");
-
-  let parsedCredential = null;
-  if (localStorageCredential !== null) {
-    parsedCredential = JSON.parse(localStorageCredential);
-  }
+  const localStorageCredential = UserCredentialFromLocalStorage();
 
   let UserCredential = null;
   if (userData.isAuthenticated) {
     UserCredential = userData.userCredential;
   } else if (localStorageCredential) {
-    UserCredential = parsedCredential;
+    UserCredential = localStorageCredential;
   }
 
   const toggleDropdown = () => {

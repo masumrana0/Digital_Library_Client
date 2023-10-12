@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import { useGetBooksQuery } from "../redux/api/bookSlice";
+import Spinner from "../components/ui/Spinner";
+import BookCard from "../components/BookCard";
+import { IBook } from "../types/globalTypes";
 
 const Home = () => {
+  const { data, isLoading } = useGetBooksQuery(undefined);
   return (
     <div>
       {/* Header */}
@@ -50,31 +55,27 @@ const Home = () => {
       </header>
 
       <div className="bg-gray-200">
-        <h2 className="py-10 text-3xl font-extrabold text-center mb-5 text-violet-900">
+        <h2 className="py-10 text-5xl font-extrabold text-center mb-5 text-violet-900">
           Recommended For You
         </h2>
-        <div className="flex justify-center">
-          <div className="grid grid-cols-3 gap-32">
-            <div className="w-72 h-96 border-2  border-gray-300 rounded p-4">
-              <img
-                className="container h-1/2 mb-2"
-                src="../../assets/6936a901231d2e36c6b51a76bccf4164.jpg"
-                alt=""
-              />
-              <h1 className="font-extrabold text-xl text-gray-600">
-                Price: 29$
-              </h1>
-              <h2 className="font-extrabold">Atomic Habits</h2>
-              <h3 className="font-semibold">Genre: Self-help</h3>
-              <h3 className="font-semibold">Author: Aevey</h3>
-              <h3 className="font-semibold mb-2">Publication Year: 2023</h3>
-              <button className="w-full bg-violet-500 hover-bg-violet-700 text-white font-bold py-2 px-4 rounded-md">
-                Read More
-              </button>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <div className=" ">
+            <div className="flex justify-center py-10 ">
+              {isLoading ? (
+                <Spinner />
+              ) : (
+                <div className=" grid grid-cols-4 gap-40   ">
+                  {data.data?.map((book: IBook) => (
+                    <BookCard key={book._id} book={book} />
+                  ))}
+                </div>
+              )}
             </div>
-            {/* Repeat the above block for other books */}
           </div>
-        </div>
+        )}
+
         <div className="flex justify-center items-center py-10">
           <Link to="/addbook">
             <button className="w-48 bg-violet-500 hover-bg-violet-700 text-white font-bold py-2 px-4 rounded-md">

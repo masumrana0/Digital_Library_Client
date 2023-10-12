@@ -5,7 +5,7 @@ import { IBook } from "../types/globalTypes";
 
 const AllBook = () => {
   const { data, isLoading } = useGetBooksQuery(undefined);
-
+  console.log(isLoading);
   return (
     <div className="box-border">
       {/* Searching bar */}
@@ -65,7 +65,7 @@ const AllBook = () => {
 
         {/* Book card section */}
         <div className="col-span-9 rounded-lg container border-2 border-green-500 min-h-screen relative">
-          <div className="grid grid-cols-4">
+          <div className="grid grid-cols-4 gap-10 py-5 pb-32">
             {isLoading ? (
               <Spinner />
             ) : (

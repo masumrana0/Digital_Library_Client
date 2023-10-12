@@ -1,20 +1,37 @@
-import { useParams } from "react-router-dom";
-import { useGetOneBookQuery } from "../redux/api/bookSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  useDeleteBookMutation,
+  useGetOneBookQuery,
+} from "../redux/api/bookSlice";
 import { IBook } from "../types/globalTypes";
 import Spinner from "../components/ui/Spinner";
 import { useState } from "react";
 import TableBookDetails from "../components/TableBookDetails";
 import BookReview from "../components/BookReview";
+import UserCredentialFromLocalStorage from "../utility/UserCredential";
 
 const BookDetails = () => {
+  const navigate = useNavigate();
   const [openDetails, setOpenDetails] = useState(true);
   const { id } = useParams();
+  const [setId, options] = useDeleteBookMutation();
+
   const { data, isLoading } = useGetOneBookQuery(id);
   const book = data?.data as IBook;
+  const userCredential = UserCredentialFromLocalStorage();
 
   if (isLoading) {
     return <Spinner />;
   }
+  let isValidUser = false;
+  if (userCredential?._id) {
+    isValidUser = userCredential._id === book.publisher?._id;
+  }
+
+  const handleDeleteBook = () => {
+    navigate("/mybooks");
+    setId(id);
+  };
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center ">
       <div className="container">
@@ -35,7 +52,8 @@ const BookDetails = () => {
               <div>
                 <p className="text-gray-400">Publisher</p>
                 <h3 className="font-bold text-xl">
-                  {book?.publisher?.name?.firstName}
+                  {book?.publisher?.name?.firstName +
+                    book.publisher.name?.lastName}
                 </h3>
               </div>
               <div>
@@ -52,19 +70,24 @@ const BookDetails = () => {
 
             {/* price and wishlist */}
             <div className="flex justify-around">
-              <h2 className="text-3xl text-amber-600">${book?.price}</h2>
+              <h2 className="text-3xl text-amber-600">Price: ${book?.price}</h2>
               <button className="w-48 transition-colors hover:bg-violet-500 hover:text-white focus:bg-violet-800 text-black font-bold py-2 px-4 rounded-md outline outline-violet-500">
                 Add to wishlist
               </button>
             </div>
-            <div className="mt-5 flex gap-5">
-              <button className="w-25 transition-colors hover:bg-violet-500 hover:text-white focus:bg-violet-800 text-black font-bold py-2 px-4 rounded-md outline outline-violet-500">
-                Delete Book
-              </button>
-              <button className="w-25 transition-colors hover:bg-violet-500 hover:text-white focus:bg-violet-800 text-black font-bold py-2 px-4 rounded-md outline outline-violet-500">
-                Edit Book
-              </button>
-            </div>
+            {isValidUser && (
+              <div className="mt-5 flex gap-5">
+                <button
+                  onClick={handleDeleteBook}
+                  className="w-25 transition-colors hover:bg-violet-500 hover:text-white focus:bg-violet-800 text-black font-bold py-2 px-4 rounded-md outline outline-violet-500"
+                >
+                  Delete Book
+                </button>
+                <button className="w-25 transition-colors hover:bg-violet-500 hover:text-white focus:bg-violet-800 text-black font-bold py-2 px-4 rounded-md outline outline-violet-500">
+                  Edit Book
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
