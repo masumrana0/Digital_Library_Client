@@ -5,7 +5,7 @@ const BookCard = ({ book }: IBookProps) => {
   return (
     <div
       style={{ height: "415px" }}
-      className="w-80 h-96  border-2 border-gray-300 rounded p-4 shadow-lg"
+      className="w-80 h-96  bg-blue-300 border-2 border-gray-300 rounded p-4 shadow-lg"
     >
       <img className="container h-1/2 mb-2" src={book.bookPhotoUrl} alt="" />
       <h1 className="font-extrabold text-xl text-gray-600">Price: 29$</h1>

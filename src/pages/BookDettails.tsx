@@ -9,16 +9,17 @@ import { useState } from "react";
 import TableBookDetails from "../components/TableBookDetails";
 import BookReview from "../components/BookReview";
 import UserCredentialFromLocalStorage from "../utility/UserCredential";
+import toast from "react-hot-toast";
 
 const BookDetails = () => {
   const navigate = useNavigate();
   const [openDetails, setOpenDetails] = useState(true);
   const { id } = useParams();
   const [setId, options] = useDeleteBookMutation();
-
   const { data, isLoading } = useGetOneBookQuery(id);
   const book = data?.data as IBook;
   const userCredential = UserCredentialFromLocalStorage();
+  
 
   if (isLoading) {
     return <Spinner />;
@@ -29,9 +30,13 @@ const BookDetails = () => {
   }
 
   const handleDeleteBook = () => {
-    navigate("/mybooks");
-    setId(id);
+    if (window.confirm("are you Soure Delete this book")) {
+      setId(id);
+      toast.success("Book Delete Successful");
+    }
+    navigate(-1);
   };
+
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center ">
       <div className="container">

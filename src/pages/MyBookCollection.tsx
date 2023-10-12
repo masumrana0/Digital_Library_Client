@@ -6,7 +6,9 @@ import { IBook } from "../types/globalTypes";
 const MyBookCollection = () => {
   const accessToken = localStorage.getItem("accessToken");
 
-  const { data, isLoading } = useGetMyBookQuery(accessToken);
+  const { data, isLoading } = useGetMyBookQuery(accessToken, {
+    refetchOnMountOrArgChange: true,
+  });
   if (isLoading) {
     return <Spinner />;
   }

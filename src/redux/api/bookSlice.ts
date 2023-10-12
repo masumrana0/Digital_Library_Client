@@ -5,6 +5,26 @@ const bookApi = api.injectEndpoints({
     getBooks: builder.query({
       query: () => `/books`,
     }),
+
+    filterBookBygenre: builder.mutation({
+      query: (filterData) => ({
+        url: `/books/?genre=${filterData} `,
+        method: "GET",
+      }),
+    }),
+    filterBookBypublicationYear: builder.mutation({
+      query: (filterData) => ({
+        url: `/books/?publicationData=${filterData} `,
+        method: "GET",
+      }),
+    }),
+    searchBook: builder.mutation({
+      query: (searchData) => ({
+        url: `/books/?searchTerm=${searchData} `,
+        method: "GET",
+      }),
+    }),
+
     getMyBook: builder.query({
       query: (token) => ({
         url: `books/mybooks`,
@@ -42,6 +62,9 @@ const bookApi = api.injectEndpoints({
 
 export const {
   useGetBooksQuery,
+  useFilterBookBygenreMutation,
+  useFilterBookBypublicationYearMutation,
+  useSearchBookMutation,
   useGetOneBookQuery,
   usePostReviewMutation,
   usePostBookMutation,

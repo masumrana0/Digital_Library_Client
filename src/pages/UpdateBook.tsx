@@ -1,14 +1,7 @@
 import { FormEvent } from "react";
-import { IBook } from "../types/globalTypes";
-import { usePostBookMutation } from "../redux/api/bookSlice";
-import UserCredentialFromLocalStorage from "../utility/UserCredential";
-import toast from "react-hot-toast";
+import { IBook, IBookProps } from "../types/globalTypes";
 
-const AddBook = () => {
-  const userCredential = UserCredentialFromLocalStorage();
-  const [setBookInfo, { isError, isLoading, isSuccess, error, data }] =
-    usePostBookMutation();
-
+const UpdateBook = ({ book }: IBookProps) => {
   const handlePostBook = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
@@ -31,17 +24,15 @@ const AddBook = () => {
       publisher: `${userCredential?._id}`,
     };
 
-    setBookInfo(bookInfo);
-
     form.reset();
   };
 
-  if (isSuccess) {
-    toast.success("Your Book is successfully added");
-  } else if (isError && error) {
-    toast.error("Somthing Went wrong");
-  }
-  console.log(data);
+  //   if (isSuccess) {
+  //     toast.success("Your Book is successfully added");
+  //   } else if (isError && error) {
+  //     toast.error("Somthing Went wrong");
+  //   }
+  //   console.log(data);
   return (
     <div className="flex justify-center mt-5 bg-gray-200">
       <div className="w-1/2 p-32 bg-violet-200">
@@ -55,18 +46,22 @@ const AddBook = () => {
             placeholder="Title"
             className="w-full mb-4 border border-gray-300 rounded-md py-2 px-3"
             required
+            defaultValue={book?.title}
           />
           <input
             type="text"
             name="author"
             placeholder="Author"
             className="w-full mb-4 border border-gray-300 rounded-md py-2 px-3"
-            // required
+            required
+            defaultValue={book?.author}
+            
           />
 
           <select
             name="genre"
             className="w-full mb-4 border border-gray-300 rounded-md py-2 px-3"
+            defaultValue={book?.genre}
           >
             <option value="comedy">Comedy</option>
             <option value="fiction">Fiction</option>
@@ -87,6 +82,7 @@ const AddBook = () => {
             placeholder="Book photo Url"
             className="w-full mb-4 border border-gray-300 rounded-md py-2 px-3"
             required
+            defaultValue={book?.bookPhotoUrl}
           />
           <input
             type="number"
@@ -94,6 +90,7 @@ const AddBook = () => {
             placeholder="Book Price"
             className="w-full mb-4 border border-gray-300 rounded-md py-2 px-3"
             required
+            defaultValue={book?.price}
           />
           <textarea
             name="summary"
@@ -102,11 +99,12 @@ const AddBook = () => {
             required
           ></textarea>
           <input
-            type="date"
+            type="text"
             name="publication_date"
             placeholder="Publication Date"
             className="w-full mb-4 border border-gray-300 rounded-md py-2 px-3"
             required
+            defaultValue={book?.publicationData}
           />
 
           <button
@@ -121,4 +119,4 @@ const AddBook = () => {
   );
 };
 
-export default AddBook;
+export default UpdateBook;

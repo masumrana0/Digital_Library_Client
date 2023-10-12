@@ -24,6 +24,7 @@ export interface IUser {
 }
 
 export interface IBook {
+  _id: Key | null | undefined;
   title: string;
   author: string;
   genre:
