@@ -132,16 +132,18 @@ const AllBook = () => {
                   onChange={handleFilterBookWithGenre}
                 >
                   <option value="">Select genre</option>
+                  <option value="comedy">Comedy</option>
                   <option value="fiction">Fiction</option>
+                  <option value="fiction">Poetry</option>
                   <option value="non-fiction">Non-Fiction</option>
-                  <option value="poetry">Poetry</option>
-                  <option value="drama">Drama</option>
-                  <option value="thriller">Thriller</option>
-                  <option value="mystery">Mystery</option>
-                  <option value="science fiction">Science Fiction</option>
                   <option value="romance">Romance</option>
+                  <option value="mystery">Mystery</option>
+                  <option value="thriller">Thriller</option>
                   <option value="horror">Horror</option>
-                  <option value="childrens">Children's</option>
+                  <option value="science-fiction">Science Fiction</option>
+                  <option value="fantasy">Fantasy</option>
+                  <option value="historical-fiction">Historical fiction</option>
+                  <option value="young-adult">Young adult</option>
                 </select>
               </div>
             </div>

@@ -8,7 +8,6 @@ import {
 import toast from "react-hot-toast";
 
 const UpdateBook = () => {
-  const [bookUpdateData, setBookUpdatedData] = useState({});
   const bookId = useParams();
   const { data } = useGetOneBookQuery(bookId.id);
   const [setUpdatedData, { isError, error, data: UpdatedBook }] =
@@ -40,14 +39,12 @@ const UpdateBook = () => {
       id: book?._id,
       updatedData: bookInfo,
     };
-    setBookUpdatedData(options);
+    setUpdatedData(options);
+    console.log(options);
   };
-  useEffect(() => {
-    setUpdatedData(bookUpdateData);
-  }, [bookUpdateData]);
 
   if (UpdatedBook?.statusCode === 200) {
-    toast.success("Your Book is successfully added");
+    toast.success(" Book is updated successfull");
   } else if (isError && error) {
     toast.error("Somthing Went wrong");
   }
@@ -76,24 +73,6 @@ const UpdateBook = () => {
             defaultValue={book?.author}
           />
 
-          <select
-            name="genre"
-            className="w-full mb-4 border border-gray-300 rounded-md py-2 px-3"
-            defaultValue={book?.genre}
-          >
-            <option value="comedy">Comedy</option>
-            <option value="fiction">Fiction</option>
-            <option value="fiction">Poetry</option>
-            <option value="non-fiction">Non-Fiction</option>
-            <option value="romance">Romance</option>
-            <option value="mystery">Mystery</option>
-            <option value="thriller">Thriller</option>
-            <option value="horror">Horror</option>
-            <option value="science-fiction">Science Fiction</option>
-            <option value="fantasy">Fantasy</option>
-            <option value="historical-fiction">Historical fiction</option>
-            <option value="young-adult">Young adult</option>
-          </select>
           <input
             type="text"
             name="bookurl"

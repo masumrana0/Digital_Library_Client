@@ -15,7 +15,7 @@ const BookDetails = () => {
   const navigate = useNavigate();
   const [openDetails, setOpenDetails] = useState(true);
   const { id } = useParams();
-  const [setId, options] = useDeleteBookMutation();
+  const [setId] = useDeleteBookMutation();
   const { data, isLoading } = useGetOneBookQuery(id, {
     refetchOnMountOrArgChange: true,
     pollingInterval: 1000,
