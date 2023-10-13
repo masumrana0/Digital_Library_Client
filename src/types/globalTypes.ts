@@ -3,7 +3,11 @@ export interface IBookProps {
 }
 
 export interface IReview {
-  email: string;
+  name: {
+    firstName: string;
+    lastName: string;
+  };
+  photoUrl: string /*  */;
   comment: string;
 }
 export interface IReviewProps {

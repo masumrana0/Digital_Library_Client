@@ -1,7 +1,21 @@
-import { FormEvent } from "react";
-import { IBook, IBookProps } from "../types/globalTypes";
+import { FormEvent, useEffect, useState } from "react";
+import { IBook } from "../types/globalTypes";
+import { useParams } from "react-router-dom";
+import {
+  useBookUpdateMutation,
+  useGetOneBookQuery,
+} from "../redux/api/bookSlice";
+import toast from "react-hot-toast";
 
-const UpdateBook = ({ book }: IBookProps) => {
+const UpdateBook = () => {
+  const [bookUpdateData, setBookUpdatedData] = useState({});
+  const bookId = useParams();
+  const { data } = useGetOneBookQuery(bookId.id);
+  const [setUpdatedData, { isError, error, data: UpdatedBook }] =
+    useBookUpdateMutation();
+
+  const book: IBook = data?.data;
+
   const handlePostBook = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target as HTMLFormElement;
@@ -13,7 +27,7 @@ const UpdateBook = ({ book }: IBookProps) => {
     const publication_date = form.publication_date.value;
     const price = form.price.value;
 
-    const bookInfo: IBook = {
+    const bookInfo = {
       title: title,
       author: author,
       genre: genre,
@@ -21,18 +35,23 @@ const UpdateBook = ({ book }: IBookProps) => {
       bookPhotoUrl: bookurl,
       publicationData: publication_date,
       bookSummary: summary,
-      publisher: `${userCredential?._id}`,
     };
-
-    form.reset();
+    const options = {
+      id: book?._id,
+      updatedData: bookInfo,
+    };
+    setBookUpdatedData(options);
   };
+  useEffect(() => {
+    setUpdatedData(bookUpdateData);
+  }, [bookUpdateData]);
 
-  //   if (isSuccess) {
-  //     toast.success("Your Book is successfully added");
-  //   } else if (isError && error) {
-  //     toast.error("Somthing Went wrong");
-  //   }
-  //   console.log(data);
+  if (UpdatedBook?.statusCode === 200) {
+    toast.success("Your Book is successfully added");
+  } else if (isError && error) {
+    toast.error("Somthing Went wrong");
+  }
+  console.log(UpdatedBook);
   return (
     <div className="flex justify-center mt-5 bg-gray-200">
       <div className="w-1/2 p-32 bg-violet-200">
@@ -55,7 +74,6 @@ const UpdateBook = ({ book }: IBookProps) => {
             className="w-full mb-4 border border-gray-300 rounded-md py-2 px-3"
             required
             defaultValue={book?.author}
-            
           />
 
           <select
@@ -97,6 +115,7 @@ const UpdateBook = ({ book }: IBookProps) => {
             placeholder="Book Summary"
             className="w-full h-48 border border-gray-300 rounded-md py-2 px-3 mb-5"
             required
+            defaultValue={book?.bookSummary}
           ></textarea>
           <input
             type="text"

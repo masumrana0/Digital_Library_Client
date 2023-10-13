@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useDeleteBookMutation,
   useGetOneBookQuery,
@@ -16,10 +16,12 @@ const BookDetails = () => {
   const [openDetails, setOpenDetails] = useState(true);
   const { id } = useParams();
   const [setId, options] = useDeleteBookMutation();
-  const { data, isLoading } = useGetOneBookQuery(id);
+  const { data, isLoading } = useGetOneBookQuery(id, {
+    refetchOnMountOrArgChange: true,
+    pollingInterval: 1000,
+  });
   const book = data?.data as IBook;
   const userCredential = UserCredentialFromLocalStorage();
-  
 
   if (isLoading) {
     return <Spinner />;
@@ -88,9 +90,12 @@ const BookDetails = () => {
                 >
                   Delete Book
                 </button>
-                <button className="w-25 transition-colors hover:bg-violet-500 hover:text-white focus:bg-violet-800 text-black font-bold py-2 px-4 rounded-md outline outline-violet-500">
-                  Edit Book
-                </button>
+                <Link to={`/updatebook/${data?.data._id}`}>
+                  {" "}
+                  <button className="w-25 transition-colors hover:bg-violet-500 hover:text-white focus:bg-violet-800 text-black font-bold py-2 px-4 rounded-md outline outline-violet-500">
+                    Edit Book
+                  </button>
+                </Link>
               </div>
             )}
           </div>

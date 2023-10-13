@@ -3,21 +3,15 @@ import { IReviewProps } from "../../types/globalTypes";
 import { FaUserAlt } from "react-icons/fa";
 
 const Review = ({ review }: IReviewProps) => {
-  const { data: user, isLoading } = useGetOneUserByEmailQuery(review.email);
   let userName: string | null = null;
-  if (isLoading) {
-    userName = "loading ...";
-  } else {
-    userName = user?.data?.name.firstName;
-  }
 
   return (
     <div>
-      <div className="flex justify-center items-center gap-3 w-full h-auto border-b-2 border-gray-300 mb-5">
-        {user?.data?.photoUrl ? (
+      <div className=" flex items-center gap-3 w-full h-auto border-b-2 border-gray-300 mb-5">
+        {review?.photoUrl ? (
           <img
-            className="w-16 h-20 rounded-lg p-2"
-            src={user?.data?.photoUrl}
+            className="w-16 h-18 rounded-2xl p-2"
+            src={review?.photoUrl}
             alt=""
           />
         ) : (
@@ -25,8 +19,10 @@ const Review = ({ review }: IReviewProps) => {
         )}
 
         <div>
-          <h3 className="font-bold text-md">{userName}</h3>
-          <p>{review?.comment}</p>
+          <h3 className="font-bold text-md">
+            {review?.name?.firstName + review?.name?.lastName}
+          </h3>
+          <p className="text-gray-700">{review?.comment}</p>
         </div>
       </div>
     </div>
