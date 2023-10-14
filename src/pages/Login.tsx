@@ -13,7 +13,6 @@ const Login: React.FC = () => {
   const dispatch = useDispatch();
   const [loginfo, { isSuccess, data }] = useLoginUserMutation();
   const location = useLocation();
-  console.log(location);
   const from = location?.state?.path || "/";
   const Navigate = useNavigate();
 

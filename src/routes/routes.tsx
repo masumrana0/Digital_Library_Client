@@ -9,7 +9,7 @@ import MyBookCollection from "../pages/MyBookCollection";
 import BookDetails from "../pages/BookDettails";
 import UpdateBook from "../pages/UpdateBook";
 import Wishlist from "../pages/Wishlist";
-import PrivateRoute from "./privateRoute";
+import PrivateRoute from "./PrivateRoute";
 
 const routes = createBrowserRouter([
   {

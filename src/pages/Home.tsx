@@ -3,6 +3,7 @@ import { useGetBooksQuery } from "../redux/api/bookSlice";
 import Spinner from "../components/ui/Spinner";
 import BookCard from "../components/BookCard";
 import { IBook } from "../types/globalTypes";
+import React from "react";
 
 const Home = () => {
   const { data, isLoading } = useGetBooksQuery(undefined);
@@ -12,7 +13,7 @@ const Home = () => {
       <header
         className="bg-cover bg-center bg-fixed"
         style={{
-          backgroundImage: "url('../../src/assets/banner.jpg')",
+          backgroundImage: "url(https://i.ibb.co/KqqP6B3/banner.jpg)",
           height: "800px",
           width: "100%",
         }}
@@ -46,9 +47,8 @@ const Home = () => {
           </div>
           <div className="w-1/2">
             <img
-              src="../../src/assets/femalewithbgremove.png"
-              alt=""
-              srcSet=""
+              src="https://i.ibb.co/6XZKTMV/femalewithbgremove.png"
+              alt=" "
             />
           </div>
         </div>
@@ -67,8 +67,8 @@ const Home = () => {
                 <Spinner />
               ) : (
                 <div className=" grid grid-cols-4 gap-16   ">
-                  {data.data?.map((book: IBook) => (
-                    <BookCard key={book._id} book={book} />
+                  {data?.data?.map((book: IBook) => (
+                    <BookCard key={book?._id} book={book} />
                   ))}
                 </div>
               )}

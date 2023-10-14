@@ -6,6 +6,7 @@ import { useAppSelector } from "../redux/hook";
 import { useDispatch } from "react-redux";
 import { logout } from "../redux/features/authSlice";
 import UserCredentialFromLocalStorage from "../utility/UserCredential";
+import { IUser } from "../types/globalTypes";
 
 const Navbar: React.FC = () => {
   const dispatch = useDispatch();
@@ -14,7 +15,7 @@ const Navbar: React.FC = () => {
 
   const localStorageCredential = UserCredentialFromLocalStorage();
 
-  let UserCredential = null;
+  let UserCredential: IUser | null = null;
   if (userData.isAuthenticated) {
     UserCredential = userData.userCredential;
   } else if (localStorageCredential) {
@@ -46,9 +47,7 @@ const Navbar: React.FC = () => {
           <Link to="/addbook" className="text-white hover:text-gray-300">
             Add Book
           </Link>
-          <Link to="/" className="text-white hover:text-gray-300">
-            Contact
-          </Link>
+
           <Link to="/wishlist" className="text-white hover:text-gray-300">
             Wishlist
           </Link>
