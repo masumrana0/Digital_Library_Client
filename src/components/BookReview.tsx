@@ -6,10 +6,12 @@ import UserCredentialFromLocalStorage from "../utility/UserCredential";
 import toast from "react-hot-toast";
 
 const BookReview = ({ book }: IBookProps) => {
-  const [setReviewData, { isError, error }] = usePostReviewMutation();
+  const [setReviewData, { isError, isSuccess, error }] =
+    usePostReviewMutation();
   const UserCredential = UserCredentialFromLocalStorage();
   const handlePostReview = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
     const comment = event.target.comment.value;
 
     const userCommentWithInfo = {

@@ -19,9 +19,10 @@ const Review = ({ review }: IReviewProps) => {
         )}
 
         <div>
-          <h3 className="font-bold text-md">
-            {review?.name?.firstName + review?.name?.lastName}
+          <h3 className="font-bold text-lg">
+            {`${review.name?.firstName} ${review.name?.lastName}`}
           </h3>
+
           <p className="text-gray-700">{review?.comment}</p>
         </div>
       </div>

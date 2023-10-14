@@ -66,7 +66,7 @@ const Home = () => {
               {isLoading ? (
                 <Spinner />
               ) : (
-                <div className=" grid grid-cols-4 gap-40   ">
+                <div className=" grid grid-cols-4 gap-16   ">
                   {data.data?.map((book: IBook) => (
                     <BookCard key={book._id} book={book} />
                   ))}

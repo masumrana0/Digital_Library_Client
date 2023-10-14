@@ -19,7 +19,7 @@ const MyBookCollection = () => {
         Your Book Collection
       </h2>
       <div className="flex justify-center py-20">
-        <div className=" grid grid-cols-5  gap-20">
+        <div className=" grid grid-cols-4  gap-20">
           {/* Book Card 1 */}
           {data?.data?.map((book: IBook) => (
             <BookCard key={book?._id} book={book} />

@@ -49,9 +49,9 @@ const Navbar: React.FC = () => {
           <Link to="/" className="text-white hover:text-gray-300">
             Contact
           </Link>
-          <a href="#" className="text-white hover:text-gray-300">
+          <Link to="/wishlist" className="text-white hover:text-gray-300">
             Wishlist
-          </a>
+          </Link>
         </div>
 
         {/* Right side: Profile Picture and Dropdown */}

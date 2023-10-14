@@ -70,7 +70,14 @@ const AllBook = () => {
   if (bookSearchAbledata) {
     data = bookSearchAbledata;
   }
-  console.log(bookSearchAbledata);
+
+  // for yearing
+  // Generate an array of years from the current year down to 1800
+  const currentYear = new Date().getFullYear();
+  const years = Array.from(
+    { length: currentYear - 1799 },
+    (_, index) => currentYear - index
+  );
 
   return (
     <div className="box-border ">
@@ -96,7 +103,7 @@ const AllBook = () => {
       </div>
 
       {/*  Filtering container */}
-      <div className="     min-h-screen mx-auto p-10 grid grid-cols-12 gap-10   ">
+      <div className=" min-h-screen mx-auto p-10 grid grid-cols-12 gap-10   ">
         <div className="col-span-3  bg-blue-200 rounded-lg container border-2   min-h-screen">
           {/* for genre  */}
           <form action="/submit" method="post">
@@ -106,22 +113,16 @@ const AllBook = () => {
                   Select your Filtering Field{" "}
                 </h2>
                 <select
-                  className="py-4 px-4  select select-bordered select-sm select-accent-blue-400 w-full"
                   name="publication_year"
+                  className="py-4 px-4 select select-bordered select-sm select-accent-blue-400 w-full"
                   onChange={handleFilterBookWithYear}
                 >
                   <option>Select publication year</option>
-                  <option value="2023">2023</option>
-                  <option value="2022">2022</option>
-                  <option value="2021">2021</option>
-                  <option value="2020">2020</option>
-                  <option value="2019">2019</option>
-                  <option value="2018">2018</option>
-                  <option value="2017">2017</option>
-                  <option value="2016">2016</option>
-                  <option value="2015">2015</option>
-                  <option value="2014">2014</option>
-                  <option value="2013">2013</option>
+                  {years.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
                 </select>
               </div>
 
@@ -151,14 +152,14 @@ const AllBook = () => {
         </div>
 
         {/* Book card section */}
-        <div className="col-span-9 rounded-lg flex  min-h-screen relative bg-blue-200  overflow-y-scroll scroll-smooth  ">
+        <div className="col-span-9 rounded-lg flex  min-h-screen relative bg-blue-200     ">
           {data?.data.length === 0 ? (
             <div className=" w-full flex justify-center items-center text-4xl font-bold  ">
               <h2 className=" ">Book Not Found</h2>
             </div>
           ) : (
             <div>
-              <div className="grid grid-cols-4 mx-auto gap-32 px-10 py-10  pb-32 ">
+              <div className="grid grid-cols-3  mx-auto gap-32 px-10 py-10  pb-32 ">
                 {isLoading ? (
                   <Spinner />
                 ) : (

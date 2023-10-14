@@ -1,13 +1,11 @@
 import { FormEvent } from "react";
-import { IBook } from "../types/globalTypes";
 import { usePostBookMutation } from "../redux/api/bookSlice";
 import UserCredentialFromLocalStorage from "../utility/UserCredential";
 import toast from "react-hot-toast";
 
 const AddBook = () => {
   const userCredential = UserCredentialFromLocalStorage();
-  const [setBookInfo, { isError, isLoading, isSuccess, error, data }] =
-    usePostBookMutation();
+  const [setBookInfo, { isError, error, data }] = usePostBookMutation();
 
   const handlePostBook = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -20,7 +18,7 @@ const AddBook = () => {
     const publication_date = form.publication_date.value;
     const price = form.price.value;
 
-    const bookInfo: IBook = {
+    const bookInfo = {
       title: title,
       author: author,
       genre: genre,
@@ -36,12 +34,15 @@ const AddBook = () => {
     form.reset();
   };
 
-  if (isSuccess) {
-    toast.success("Your Book is successfully added");
-  } else if (isError && error) {
+  if (isError && error) {
     toast.error("Somthing Went wrong");
+    console.log(error);
   }
-  console.log(data);
+
+  if (data?.statusCode === 200) {
+    toast.success("Your Book is successfully added");
+  }
+
   return (
     <div className="flex justify-center mt-5 bg-gray-200">
       <div className="w-1/2 p-32 bg-violet-200">
@@ -61,7 +62,7 @@ const AddBook = () => {
             name="author"
             placeholder="Author"
             className="w-full mb-4 border border-gray-300 rounded-md py-2 px-3"
-            // required
+            required
           />
 
           <select
@@ -102,7 +103,7 @@ const AddBook = () => {
             required
           ></textarea>
           <input
-            type="date"
+            type="text"
             name="publication_date"
             placeholder="Publication Date"
             className="w-full mb-4 border border-gray-300 rounded-md py-2 px-3"

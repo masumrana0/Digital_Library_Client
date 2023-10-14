@@ -10,9 +10,12 @@ import TableBookDetails from "../components/TableBookDetails";
 import BookReview from "../components/BookReview";
 import UserCredentialFromLocalStorage from "../utility/UserCredential";
 import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { addToWishlist } from "../redux/features/wishlistSlice";
 
 const BookDetails = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [openDetails, setOpenDetails] = useState(true);
   const { id } = useParams();
   const [setId] = useDeleteBookMutation();
@@ -31,6 +34,11 @@ const BookDetails = () => {
     isValidUser = userCredential._id === book.publisher?._id;
   }
 
+  const handleAddToWishlist = (book: IBook) => {
+    dispatch(addToWishlist(book));
+    toast.success("This is book added wishlist");
+  };
+
   const handleDeleteBook = () => {
     if (window.confirm("are you Soure Delete this book")) {
       setId(id);
@@ -42,7 +50,7 @@ const BookDetails = () => {
   return (
     <div className="bg-gray-100 min-h-screen flex justify-center items-center ">
       <div className="container">
-        <div className="grid grid-cols-12 items-center">
+        <div className="grid grid-cols-12 items-center gap-5">
           <div className="col-span-4">
             <img className="" src={book?.bookPhotoUrl} alt="" />
           </div>
@@ -59,8 +67,7 @@ const BookDetails = () => {
               <div>
                 <p className="text-gray-400">Publisher</p>
                 <h3 className="font-bold text-xl">
-                  {book?.publisher?.name?.firstName +
-                    book.publisher.name?.lastName}
+                  {`${book?.publisher?.name?.firstName}  ${book?.publisher.name?.lastName}`}
                 </h3>
               </div>
               <div>
@@ -78,7 +85,10 @@ const BookDetails = () => {
             {/* price and wishlist */}
             <div className="flex justify-around">
               <h2 className="text-3xl text-amber-600">Price: ${book?.price}</h2>
-              <button className="w-48 transition-colors hover:bg-violet-500 hover:text-white focus:bg-violet-800 text-black font-bold py-2 px-4 rounded-md outline outline-violet-500">
+              <button
+                onClick={() => handleAddToWishlist(data?.data)}
+                className="w-48 transition-colors hover:bg-violet-500 hover:text-white focus:bg-violet-800 text-black font-bold py-2 px-4 rounded-md outline outline-violet-500"
+              >
                 Add to wishlist
               </button>
             </div>
