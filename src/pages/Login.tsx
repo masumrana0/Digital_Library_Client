@@ -7,9 +7,15 @@ import {
   useLoginUserMutation,
 } from "../redux/api/userSlice";
 
+import { useLocation, useNavigate } from "react-router-dom";
+
 const Login: React.FC = () => {
   const dispatch = useDispatch();
   const [loginfo, { isSuccess, data }] = useLoginUserMutation();
+  const location = useLocation();
+  console.log(location);
+  const from = location?.state?.path || "/";
+  const Navigate = useNavigate();
 
   // set accessToken in localStorage
   if (isSuccess && data) {
@@ -25,6 +31,7 @@ const Login: React.FC = () => {
   if (credential && !isLoading) {
     localStorage.setItem("userCredential", JSON.stringify(credential.data));
     dispatch(login(credential.data));
+    Navigate(from, { replace: true });
   }
 
   // hadnle login function
